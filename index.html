@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect to Google Maps with Current Location</title>
+</head>
+<body>
+    <input type="text" id="destinationInput" placeholder="Enter destination address">
+    <button onclick="redirectToGoogleMaps()">Get Directions</button>
+
+    <script>
+        function redirectToGoogleMaps() {
+            // Get the current location using Geolocation API
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    
+                    // Get the destination address entered by the user
+                    var destinationAddress = document.getElementById('destinationInput').value;
+
+                    // Construct the Google Maps URL with current location as source and destination address
+                    var googleMapsUrl = "https://www.google.com/maps/dir/?api=1&origin=" + latitude + "," + longitude + "&destination=" + encodeURIComponent(destinationAddress);
+
+                    // Redirect the user to the Google Maps URL
+                    window.location.href = googleMapsUrl;
+                }, function() {
+                    // Handle errors if geolocation fails
+                    alert('Error: The Geolocation service failed.');
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                alert('Error: Your browser doesn\'t support geolocation.');
+            }
+        }
+    </script>
+</body>
+</html>
